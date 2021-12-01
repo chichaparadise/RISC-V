@@ -1,3 +1,5 @@
+from enum import Enum
+
 # OP CODES
 
 OP_LUI    = 0b0110111
@@ -22,3 +24,13 @@ ALU_AND   = 0b0111
 ALU_SLL   = 0b0001
 ALU_SRL   = 0b0101
 ALU_SRA   = 0b1101
+
+
+class IType(Enum):
+    ALU = 1
+    LD = 2
+    ST = 3
+    J = 4
+    JR = 5
+    BR = 6
+    AUIPC = 7

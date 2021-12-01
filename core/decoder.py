@@ -12,7 +12,8 @@ class Decoder(Elaboratable):
         self.funct3 = Signal(3)
         self.imm = Signal(32)
         self.funct7 = Signal(1, reset=0)
-
+        self.functtype = Signal(2)
+        self.itype = Signal(4)
 
     def elaborate(self, platfrom):
         m = Module()
@@ -43,7 +44,8 @@ class Decoder(Elaboratable):
                     self.rs1.eq(self.instruction[15:20]),
                     self.rs2.eq(0),
                     self.rd.eq(self.instruction[7:12]),
-                    self.funct3.eq(self.instruction[12:15])
+                    self.funct3.eq(self.instruction[12:15]),
+                    self.itype.eq(IType.ALU.value)
                 ]
             with m.Case(OP_REG):
                 m.d.comb += [
@@ -52,14 +54,24 @@ class Decoder(Elaboratable):
                     self.rs2.eq(self.instruction[20:25]),
                     self.rd.eq(self.instruction[7:12]),
                     self.funct3.eq(self.instruction[12:15]),
-                    self.funct7.eq(self.instruction[30])
+                    self.funct7.eq(self.instruction[30]),
+                    self.itype.eq(IType.ALU.value)
                 ]
-            with m.Case(OP_LUI, OP_AUIPC):
+            with m.Case(OP_LUI):
                 m.d.comb += [
                     self.imm.eq(u_imm),
                     self.rs1.eq(0),
                     self.rs2.eq(0),
-                    self.rd.eq(self.instruction[7:12])
+                    self.rd.eq(self.instruction[7:12]),
+                    self.itype.eq(IType.ALU.value)
+                ]
+            with m.Case(OP_AUIPC):
+                m.d.comb += [
+                    self.imm.eq(u_imm),
+                    self.rs1.eq(0),
+                    self.rs2.eq(0),
+                    self.rd.eq(self.instruction[7:12]),
+                    self.itype.eq(IType.AUIPC.value)
                 ]
             with m.Case(OP_JAL):
                 m.d.comb += [
@@ -67,7 +79,8 @@ class Decoder(Elaboratable):
                     self.rs1.eq(0),
                     self.rs2.eq(0),
                     self.rd.eq(self.instruction[7:12]),
-                    self.funct3.eq(0)
+                    self.funct3.eq(0),
+                    self.itype.eq(IType.J.value)
                 ]
             with m.Case(OP_JALR):
                 m.d.comb += [
@@ -75,7 +88,8 @@ class Decoder(Elaboratable):
                     self.rs1.eq(self.instruction[15:20]),
                     self.rs2.eq(0),
                     self.rd.eq(self.instruction[7:12]),
-                    self.funct3.eq(0)
+                    self.funct3.eq(0),
+                    self.itype.eq(IType.JR.value),
                 ]
             with m.Case(OP_BRANCH):
                 m.d.comb += [
@@ -83,7 +97,8 @@ class Decoder(Elaboratable):
                     self.rs1.eq(self.instruction[15:20]),
                     self.rs2.eq(self.instruction[20:25]),
                     self.rd.eq(0),
-                    self.funct3.eq(self.instruction[12:15])
+                    self.funct3.eq(self.instruction[12:15]),
+                    self.itype.eq(IType.BR.value)
                 ]
 
         return m
