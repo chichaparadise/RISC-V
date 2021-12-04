@@ -1,0 +1,32 @@
+from nmigen import *
+from isa import *
+
+
+class Branch(Elaboratable):
+    def __init__(self):
+        self.funct = Signal(4)
+        self.src1 = Signal(signed(32))
+        self.src2 = Signal(signed(32))
+        self.res = Signal(1)
+        self.res_has_val = Signal(1, reset=1)
+
+    def elaborate(self, platform):
+        m = Module()
+
+        with m.Switch(self.funct):
+            with m.Case(BRANCH.BEQ):
+                m.d.comb += self.res.eq(self.src1 == self.src2)
+            with m.Case(BRANCH.BNE):
+                m.d.comb += self.res.eq(self.src1 != self.src2)
+            with m.Case(BRANCH.BGE):
+                m.d.comb += self.res.eq(self.src1 >= self.src2)
+            with m.Case(BRANCH.BLT):
+                m.d.comb += self.res.eq(self.src1 < self.src2)
+            with m.Case(BRANCH.BGEU):
+                m.d.comb += self.res.eq(self.src1.as_unsigned() >= self.src2.as_unsigned())
+            with m.Case(BRANCH.BLTU):
+                m.d.comb += self.res.eq(self.src1.as_unsigned() < self.src2.as_unsigned())
+            with m.Default():
+                m.d.comb += self.res_has_val.eq(0)
+
+        return m

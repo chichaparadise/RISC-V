@@ -1,24 +1,45 @@
-# OP CODES
+from enum import Enum
 
-OP_LUI    = 0b0110111
-OP_AUIPC  = 0b0010111
-OP_JAL    = 0b1101111
-OP_JALR   = 0b1100111
-OP_BRANCH = 0b1100011
-OP_LOAD   = 0b0000011
-OP_STORE  = 0b0100011
-OP_REG    = 0b0110011
-OP_IMM    = 0b0010011
+# OP CODES
+class OP:
+    LUI    = 0b0110111
+    AUIPC  = 0b0010111
+    JAL    = 0b1101111
+    JALR   = 0b1100111
+    BRANCH = 0b1100011
+    LOAD   = 0b0000011
+    STORE  = 0b0100011
+    REG    = 0b0110011
+    IMM    = 0b0010011
 
 # ALU
+class ALU:
+    ADD   = 0b0000
+    SUB   = 0b1000
+    SLT   = 0b0010
+    SLTU  = 0b0011
+    XOR   = 0b0100
+    OR    = 0b0110
+    AND   = 0b0111
+    SLL   = 0b0001
+    SRL   = 0b0101
+    SRA   = 0b1101
 
-ALU_ADD   = 0b0000
-ALU_SUB   = 0b1000
-ALU_SLT   = 0b0010
-ALU_SLTU  = 0b0011
-ALU_XOR   = 0b0100
-ALU_OR    = 0b0110
-ALU_AND   = 0b0111
-ALU_SLL   = 0b0001
-ALU_SRL   = 0b0101
-ALU_SRA   = 0b1101
+
+class IType(Enum):
+    ALU = 1
+    LD = 2
+    ST = 3
+    J = 4
+    JR = 5
+    BR = 6
+    AUIPC = 7
+
+# BRANCH
+class BRANCH:
+    BEQ  = 0b000
+    BNE  = 0b001
+    BLT  = 0b100
+    BGE  = 0b101
+    BLTU = 0b110
+    BGEU = 0b111
