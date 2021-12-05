@@ -49,12 +49,6 @@ ALU.STRS = {
   ALU.SUB:  "-"
 }
 
-def hexs( num ):
-  if num >= 0:
-    return "0x%08X"%( num )
-  else:
-    return "0x%08X"%( ( num + ( 1 << 32 ) ) % ( 1 << 32 ) )
-
 
 passed, failed = 0, 0
 
