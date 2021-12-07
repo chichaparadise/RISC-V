@@ -1,10 +1,19 @@
 from nmigen import *
-from isa import *
+from nmigen.sim import *
+
+
+class BRANCH:
+    BEQ  = 0b000
+    BNE  = 0b001
+    BLT  = 0b100
+    BGE  = 0b101
+    BLTU = 0b110
+    BGEU = 0b111
 
 
 class Branch(Elaboratable):
     def __init__(self):
-        self.funct = Signal(4)
+        self.funct = Signal(3)
         self.src1 = Signal(signed(32))
         self.src2 = Signal(signed(32))
         self.res = Signal(1)
@@ -30,3 +39,4 @@ class Branch(Elaboratable):
                 m.d.comb += self.res_has_val.eq(0)
 
         return m
+        
