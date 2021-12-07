@@ -4,7 +4,7 @@ from nmigen.sim import *
 from nmigen_soc.wishbone.bus import Arbiter, Interface, MemoryMap
 
 
-class RAM(Elaboratable):
+class MemoryUnit(Elaboratable):
     def __init__(self, size_words, data=[]):
         self.size = size_words * 4
         self.mem = Memory(

@@ -5,20 +5,20 @@ from nmigen.sim import *
 # from branch import Branch
 # from decoder import Decoder, IType
 # from registers import Registers
-# from ram import RAM
+# from memory import MemoryUnit
 from core.alu import ALU
 from core.branch import Branch
 from core.decoder import Decoder, IType
 from core.registers import Registers
-from core.ram import RAM
+from core.memory import MemoryUnit
 
 
 class CPU(Elaboratable):
-    def __init__(self, reset_address=0x8000_0000, data=[]):
+    def __init__(self, reset_address=0x0000_0000, data=[]):
         self.reset_address = reset_address
 
-        self.ram = RAM(1024)
-        self.rom = RAM(len(data), data=data)
+        self.ram = MemoryUnit(1024)
+        self.rom = MemoryUnit(len(data), data=data)
         self.ibus = self.rom.new_bus()
         self.dbus = self.ram.new_bus()
         self.pc = Signal(32, reset=reset_address)
@@ -182,7 +182,7 @@ if __name__ == '__main__':
         # 0x0400_a083         	
     ]
 
-    cpu = CPU(reset_address=0x200, data=prog)
+    cpu = CPU(reset_address=0x8000_0000, data=prog)
     sim = Simulator(cpu)
     def step():
         clock = 0

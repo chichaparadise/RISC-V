@@ -17,7 +17,7 @@ def read_prog(path):
     return prog
 
 prog = read_prog(BIN_FILE)
-cpu = CPU(reset_address=0x0000_0200, data=prog)
+cpu = CPU(reset_address=0x200, data=prog)
 sim = Simulator(cpu)
 
 def step():
@@ -41,7 +41,7 @@ def proc():
         print('PASSED')
     else:
         print('FAILED')
-    print(f'STEPS: {pc}')
+    print(f'PC AT: {hex(pc)}')
     print('\n', '-'*20)
 
 sim.add_clock(1e-6)
