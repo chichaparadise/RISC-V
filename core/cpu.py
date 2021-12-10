@@ -1,23 +1,24 @@
 from nmigen import *
 from nmigen.hdl.rec import *
 from nmigen.sim import *
-# from alu import ALU
-# from branch import Branch
-# from decoder import Decoder, IType
-# from registers import Registers
-# from memory import MemoryUnit
-from core.alu import ALU
-from core.branch import Branch
-from core.decoder import Decoder, IType
-from core.registers import Registers
-from core.memory import MemoryUnit
+from nmigen.back import rtlil
+from alu import ALU
+from branch import Branch
+from decoder import Decoder, IType
+from registers import Registers
+from memory import MemoryUnit
+# from core.alu import ALU
+# from core.branch import Branch
+# from core.decoder import Decoder, IType
+# from core.registers import Registers
+# from core.memory import MemoryUnit
 
 
 class CPU(Elaboratable):
     def __init__(self, reset_address=0x0000_0000, data=[]):
         self.reset_address = reset_address
 
-        self.ram = MemoryUnit(1024)
+        self.ram = MemoryUnit(256)
         self.rom = MemoryUnit(len(data), data=data)
         self.ibus = self.rom.new_bus()
         self.dbus = self.ram.new_bus()
@@ -32,10 +33,10 @@ class CPU(Elaboratable):
     def elaborate(self, platform):
         m = Module()
 
-        decoder   = m.submodules.decoder   = self.decoder
-        regs      = m.submodules.regs      = self.regs
-        alu       = m.submodules.alu       = self.alu
-        branch    = m.submodules.branch    = self.branch
+        m.submodules.decoder = decoder = self.decoder
+        m.submodules.regs    = regs    = self.regs
+        m.submodules.alu     = alu     = self.alu
+        m.submodules.branch  = branch  = self.branch
         m.submodules.ram = self.ram
         m.submodules.rom = self.rom
 
@@ -176,10 +177,7 @@ if __name__ == '__main__':
         0xff01_2103, # lw    x2,-16(x2) # 0x4000
         0x0011_0463, # beq   x2,x1,80000020
         0x0000_0073, # ecall
-        0x0000_0013, # addi x0,x0,0
-        # 0x0060_8113,
-        # 0x0420_a023,
-        # 0x0400_a083         	
+        0x0000_0013, # addi x0,x0,0      	
     ]
 
     cpu = CPU(reset_address=0x8000_0000, data=prog)
@@ -284,4 +282,5 @@ if __name__ == '__main__':
 
     sim.add_clock(1e-6, domain='sync')
     sim.add_sync_process(proc)
-    sim.run()
+    with sim.write_vcd("cpu.vcd", "cpu.gtkw"):
+        sim.run()
