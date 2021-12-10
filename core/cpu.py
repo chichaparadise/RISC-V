@@ -193,6 +193,19 @@ if __name__ == '__main__':
         assert(clock < 8)
 
     def proc():
+        print('Instr'.rjust(10), 'PC'.rjust(10), 'RS1 Addr'.rjust(10), 
+        'RS1 Data'.rjust(10), 'RS2 Addr'.rjust(10), 'RS2 Data'.rjust(10), 'RD Addr'.rjust(10), 'RD Data'.rjust(10))
+        yield from step()
+        instr = yield cpu.instruction
+        pc = yield cpu.pc
+        rs1_addr = yield cpu.regs.rs1_addr
+        rs1_data = yield cpu.regs.rs1_data
+        rs2_addr = yield cpu.regs.rs2_addr
+        rs2_data = yield cpu.regs.rs2_data
+        rd_addr = yield cpu.regs.rd_addr
+        rd_data = yield cpu.regs.rd_data
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rs1_addr).rjust(10), 
+        hex(rs1_data).rjust(10), hex(rs2_addr).rjust(10), hex(rs2_data).rjust(10), hex(rd_addr).rjust(10), hex(rd_data).rjust(10),)
 
         yield from step()
         instr = yield cpu.instruction
@@ -203,20 +216,8 @@ if __name__ == '__main__':
         rs2_data = yield cpu.regs.rs2_data
         rd_addr = yield cpu.regs.rd_addr
         rd_data = yield cpu.regs.rd_data
-        print(hex(instr), hex(pc), hex(rs1_addr), hex(rs1_data), hex(rs2_addr), hex(rs2_data),hex(rd_addr), hex(rd_data),)
-
-
-        yield from step()
-
-        instr = yield cpu.instruction
-        pc = yield cpu.pc
-        rs1_addr = yield cpu.regs.rs1_addr
-        rs1_data = yield cpu.regs.rs1_data
-        rs2_addr = yield cpu.regs.rs2_addr
-        rs2_data = yield cpu.regs.rs2_data
-        rd_addr = yield cpu.regs.rd_addr
-        rd_data = yield cpu.regs.rd_data
-        print(hex(instr), hex(pc), hex(rs1_addr), hex(rs1_data), hex(rs2_addr), hex(rs2_data),hex(rd_addr), hex(rd_data),)
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rs1_addr).rjust(10), 
+        hex(rs1_data).rjust(10), hex(rs2_addr).rjust(10), hex(rs2_data).rjust(10), hex(rd_addr).rjust(10), hex(rd_data).rjust(10),)
 
         yield from step()
         instr = yield cpu.instruction
@@ -227,8 +228,10 @@ if __name__ == '__main__':
         rs2_data = yield cpu.regs.rs2_data
         rd_addr = yield cpu.regs.rd_addr
         rd_data = yield cpu.regs.rd_data
-        print(hex(instr), hex(pc), hex(rs1_addr), hex(rs1_data), hex(rs2_addr), hex(rs2_data),hex(rd_addr), hex(rd_data),)
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rs1_addr).rjust(10), 
+        hex(rs1_data).rjust(10), hex(rs2_addr).rjust(10), hex(rs2_data).rjust(10), hex(rd_addr).rjust(10), hex(rd_data).rjust(10),)
 
+        print('Instr'.rjust(10), 'PC'.rjust(10), 'RS2 Addr'.rjust(10), 'RS2 Data'.rjust(10), 'Bus Addr'.rjust(10), 'Bus RData')
         yield from step()
         instr = yield cpu.instruction
         pc = yield cpu.pc
@@ -236,8 +239,10 @@ if __name__ == '__main__':
         rs2_data = yield cpu.regs.rs2_data
         addr = yield cpu.dbus.adr
         data = yield cpu.dbus.dat_w
-        print(hex(instr), hex(pc), hex(rs2_addr), hex(rs2_data),hex(addr), hex(data),)
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rs2_addr).rjust(10), hex(rs2_data).rjust(10),hex(addr).rjust(10), hex(data).rjust(10),)
 
+        print('Instr'.rjust(10), 'PC'.rjust(10), 'RS1 Addr'.rjust(10), 
+        'RS1 Data'.rjust(10), 'RS2 Addr'.rjust(10), 'RS2 Data'.rjust(10), 'RD Addr'.rjust(10), 'RD Data'.rjust(10))
         yield from step()
         instr = yield cpu.instruction
         pc = yield cpu.pc
@@ -247,7 +252,8 @@ if __name__ == '__main__':
         rs2_data = yield cpu.regs.rs2_data
         rd_addr = yield cpu.regs.rd_addr
         rd_data = yield cpu.regs.rd_data
-        print(hex(instr), hex(pc), hex(rs1_addr), hex(rs1_data), hex(rs2_addr), hex(rs2_data),hex(rd_addr), hex(rd_data),)
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rs1_addr).rjust(10), 
+        hex(rs1_data).rjust(10), hex(rs2_addr).rjust(10), hex(rs2_data).rjust(10), hex(rd_addr).rjust(10), hex(rd_data).rjust(10),)
 
         yield from step()
         instr = yield cpu.instruction
@@ -256,8 +262,9 @@ if __name__ == '__main__':
         rd_data = yield cpu.regs.rd_data
         addr = yield cpu.dbus.adr
         data = yield cpu.dbus.dat_r
-        print(hex(instr), hex(pc), hex(rd_addr), hex(rd_data),hex(addr), hex(data),)
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rd_addr).rjust(10), hex(rd_data).rjust(10),hex(addr).rjust(10), hex(data).rjust(10),)
 
+        print('Instr'.rjust(10), 'PC'.rjust(10), 'RS2 Addr'.rjust(10), 'RS2 Data'.rjust(10), 'Bus Addr'.rjust(10), 'Bus RData')
         yield from step()
         instr = yield cpu.instruction
         pc = yield cpu.pc
@@ -267,12 +274,13 @@ if __name__ == '__main__':
         rs2_data = yield cpu.regs.rs2_data
         rd_addr = yield cpu.regs.rd_addr
         rd_data = yield cpu.regs.rd_data
-        print(hex(instr), hex(pc), hex(rs1_addr), hex(rs1_data), hex(rs2_addr), hex(rs2_data),hex(rd_addr), hex(rd_data),)
+        print(hex(instr).rjust(10), hex(pc).rjust(10), hex(rs1_addr).rjust(10), 
+        hex(rs1_data).rjust(10), hex(rs2_addr).rjust(10), hex(rs2_data).rjust(10), hex(rd_addr).rjust(10), hex(rd_data).rjust(10),)
 
         yield from step()
         instr = yield cpu.instruction
         pc = yield cpu.pc
-        print(hex(instr), hex(pc))
+        print(hex(instr).rjust(10), hex(pc).rjust(10))
 
         yield Tick()
         yield Tick()

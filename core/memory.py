@@ -10,7 +10,7 @@ class MemoryUnit(Elaboratable):
         self.mem = Memory(
             width=32,
             depth=size_words,
-            init=data  # + [0x00000000 for i in range( size_words - len(data))]
+            init=data
         )
         self.read_port = self.mem.read_port()
         self.write_port = self.mem.write_port()
