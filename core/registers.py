@@ -1,6 +1,7 @@
 from nmigen import *
 from nmigen.sim import *
 
+
 class Registers(Elaboratable):
     def __init__(self):
         self.mem = Memory(width = 32, depth = 32)
